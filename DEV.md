@@ -22,10 +22,11 @@
   - the failed response error code
   - the full failed response
   - total time in seconds until response
+- [ ] Create an API to allow a cronjob to trigger web check 
 - [ ] Create an alert e-mail service
   - send emails when events occur (sent to users in the CMS)
 - [ ] Create a monthly report e-mail service
-  - a summarization of all the events that occurred within a month sent via email on the first day of the next month
+  - a summarization of all the events that occurred within a month sent via email on the first day of the next month (sent to users in the CMS)
 
 ## Front End
 - [ ] A nice async list of web properties and displays the minimal data for quick meaningful glances

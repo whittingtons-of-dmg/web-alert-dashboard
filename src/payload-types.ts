@@ -68,16 +68,27 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
-    media: Media;
+    servers: Server;
+    websites: Website;
+    events: Event;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    servers: {
+      properties: 'websites';
+    };
+    websites: {
+      website_events: 'events';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    servers: ServersSelect<false> | ServersSelect<true>;
+    websites: WebsitesSelect<false> | WebsitesSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -144,22 +155,64 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "servers".
  */
-export interface Media {
+export interface Server {
   id: number;
-  alt: string;
+  title: string;
+  location: string;
+  properties?: {
+    docs?: (number | Website)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "websites".
+ */
+export interface Website {
+  id: number;
+  status?: ('okay' | 'slow' | 'failing') | null;
+  title: string;
+  name: string;
+  email: string;
+  framework_cms?: ('' | 'SilverStripe' | 'Laravel' | 'Drupal' | 'WordPress' | '.NET' | 'ASP' | 'VB') | null;
+  last_checked?: string | null;
+  avg_response_ms?: string | null;
+  parent_server: number | Server;
+  website_events?: {
+    docs?: (number | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  status_code: string;
+  dns_resolves?: boolean | null;
+  timestamp?: string | null;
+  event_owner: number | Website;
+  serialized_response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -190,8 +243,16 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
+        relationTo: 'servers';
+        value: number | Server;
+      } | null)
+    | ({
+        relationTo: 'websites';
+        value: number | Website;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -259,21 +320,45 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "servers_select".
  */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
+export interface ServersSelect<T extends boolean = true> {
+  title?: T;
+  location?: T;
+  properties?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "websites_select".
+ */
+export interface WebsitesSelect<T extends boolean = true> {
+  status?: T;
+  title?: T;
+  name?: T;
+  email?: T;
+  framework_cms?: T;
+  last_checked?: T;
+  avg_response_ms?: T;
+  parent_server?: T;
+  website_events?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  status_code?: T;
+  dns_resolves?: T;
+  timestamp?: T;
+  event_owner?: T;
+  serialized_response?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

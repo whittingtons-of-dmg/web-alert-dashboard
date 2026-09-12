@@ -34,6 +34,14 @@ export const Events: CollectionConfig = {
       },
     },
     {
+      name: 'location_updated',
+      type: 'checkbox',
+      label: 'DNS IP was Changed',
+      admin: {
+        readOnly: true,
+      },
+    },
+    {
       name: 'timestamp',
       type: 'date',
       admin: {

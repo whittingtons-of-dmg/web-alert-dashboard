@@ -134,6 +134,7 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  role?: ('developer' | 'ae' | 'associate')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -161,6 +162,10 @@ export interface Server {
   id: number;
   title: string;
   location: string;
+  addresses: {
+    ipv4?: string | null;
+    id?: string | null;
+  }[];
   properties?: {
     docs?: (number | Website)[];
     hasNextPage?: boolean;
@@ -177,9 +182,19 @@ export interface Website {
   id: number;
   status?: ('okay' | 'slow' | 'failing') | null;
   title: string;
-  name: string;
   email: string;
-  framework_cms?: ('' | 'SilverStripe' | 'Laravel' | 'Drupal' | 'WordPress' | '.NET' | 'ASP' | 'VB') | null;
+  framework_cms:
+    | ''
+    | 'SilverStripe'
+    | 'react'
+    | 'angular'
+    | 'next_payload'
+    | 'Laravel'
+    | 'Drupal'
+    | 'WordPress'
+    | '.NET'
+    | 'ASP'
+    | 'VB';
   last_checked?: string | null;
   avg_response_ms?: string | null;
   parent_server: number | Server;
@@ -200,6 +215,7 @@ export interface Event {
   title: string;
   status_code: string;
   dns_resolves?: boolean | null;
+  location_updated?: boolean | null;
   timestamp?: string | null;
   event_owner: number | Website;
   serialized_response?:
@@ -301,6 +317,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -325,6 +342,12 @@ export interface UsersSelect<T extends boolean = true> {
 export interface ServersSelect<T extends boolean = true> {
   title?: T;
   location?: T;
+  addresses?:
+    | T
+    | {
+        ipv4?: T;
+        id?: T;
+      };
   properties?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -336,7 +359,6 @@ export interface ServersSelect<T extends boolean = true> {
 export interface WebsitesSelect<T extends boolean = true> {
   status?: T;
   title?: T;
-  name?: T;
   email?: T;
   framework_cms?: T;
   last_checked?: T;
@@ -354,6 +376,7 @@ export interface EventsSelect<T extends boolean = true> {
   title?: T;
   status_code?: T;
   dns_resolves?: T;
+  location_updated?: T;
   timestamp?: T;
   event_owner?: T;
   serialized_response?: T;

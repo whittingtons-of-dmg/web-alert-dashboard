@@ -21,12 +21,24 @@ export const Servers: CollectionConfig = {
       defaultValue: 'AWS',
     },
     {
+      name: 'addresses',
+      label: 'Public Addresses',
+      type: 'array',
+      required: true,
+      fields: [
+        {
+          name: 'ipv4',
+          type: 'text'
+        }
+      ]
+    },
+    {
       name: 'properties',
       type: 'join',
       collection: 'websites',
       on: 'parent_server',
       admin: {
-        defaultColumns: ['title', 'name', 'framework_cms', 'status'], // Columns displayed in the admin UI list
+        defaultColumns: ['title', 'framework_cms', 'status'], // Columns displayed in the admin UI list
       },
     },
   ],

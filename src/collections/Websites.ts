@@ -13,14 +13,16 @@ export const Websites: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
-      label: 'Domain Name',
+      label: 'Website Domain',
       required: true,
-    },
-    {
-      name: 'name',
-      type: 'text',
-      label: 'AE Name',
-      required: true,
+      validate: (value: any) => {
+        const websiteRegex = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/
+
+        if (value && !websiteRegex.test(value)) {
+          return 'Please exclude https://, http://, or trailing slashes.'
+        }
+        return true
+      },
     },
     {
       name: 'email',
@@ -30,13 +32,18 @@ export const Websites: CollectionConfig = {
     },
     {
       name: 'framework_cms',
+      label: 'Framework/CMS',
       type: 'select',
+      required: true,
       admin: {
         isClearable: true,
       },
       options: [
         { label: '-- Select an Option --', value: '' },
         { label: 'SilverStripe', value: 'SilverStripe' },
+        { label: 'React', value: 'react' },
+        { label: 'Angular', value: 'angular' },
+        { label: 'Next.js/Payload', value: 'next_payload' },
         { label: 'Laravel', value: 'Laravel' },
         { label: 'Drupal', value: 'Drupal' },
         { label: 'WordPress', value: 'WordPress' },
@@ -48,6 +55,7 @@ export const Websites: CollectionConfig = {
     },
     {
       name: 'last_checked',
+      label: 'Last Checked',
       type: 'date',
       admin: {
         date: {
@@ -57,11 +65,13 @@ export const Websites: CollectionConfig = {
     },
     {
       name: 'avg_response_ms',
+      label: 'AVG Response Time (ms)',
       type: 'text',
       defaultValue: 'N/A',
     },
     {
       name: 'parent_server',
+      label: 'Parent Server',
       type: 'relationship',
       relationTo: 'servers',
       required: true,

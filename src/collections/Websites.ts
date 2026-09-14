@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { CustomStatus } from '@/fields/CustomStatus'
+import { CustomStatusField } from '@/fields/CustomStatusField'
 
 export const Websites: CollectionConfig = {
   slug: 'websites',
@@ -9,7 +9,7 @@ export const Websites: CollectionConfig = {
     useAsTitle: 'title',
   },
   fields: [
-    CustomStatus,
+    CustomStatusField,
     {
       name: 'title',
       type: 'text',

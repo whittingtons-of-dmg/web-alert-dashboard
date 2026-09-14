@@ -1,14 +1,15 @@
 import type { Field } from 'payload'
 
-export const CustomStatus: Field = {
+export const CustomStatusField: Field = {
   name: 'status',
   type: 'select',
   options: [
-    { label: 'Okay', value: 'okay' },
+    { label: 'OK', value: 'ok' },
     { label: 'Slow', value: 'slow' },
     { label: 'Failing', value: 'failing' },
+    { label: 'N/A', value: 'unknown' },
   ],
-  defaultValue: 'okay',
+  defaultValue: 'unknown',
   admin: {
     components: {
       Field: '@/components/CustomStatusCellComponent', // Custom input view

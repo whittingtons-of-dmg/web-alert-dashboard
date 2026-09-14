@@ -10,6 +10,8 @@ import { Websites } from './collections/Websites'
 import { Events} from './collections/Events'
 import { Servers } from './collections/Servers'
 
+import { websiteBatchCheck } from './api-endpoints/website-batch'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -33,4 +35,7 @@ export default buildConfig({
   }),
   sharp,
   plugins: [],
+  endpoints: [
+    websiteBatchCheck,
+  ],
 })

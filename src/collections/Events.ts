@@ -34,7 +34,7 @@ export const Events: CollectionConfig = {
       },
     },
     {
-      name: 'location_updated',
+      name: 'dns_updated',
       type: 'checkbox',
       label: 'DNS IP was Changed',
       admin: {
@@ -61,7 +61,7 @@ export const Events: CollectionConfig = {
       },
     },
     {
-      name: 'serialized_response',
+      name: 'error_message',
       type: 'json',
       admin: {
         readOnly: true,

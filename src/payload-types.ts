@@ -180,7 +180,7 @@ export interface Server {
  */
 export interface Website {
   id: number;
-  status?: ('okay' | 'slow' | 'failing') | null;
+  status?: ('ok' | 'slow' | 'failing' | 'unknown') | null;
   title: string;
   email: string;
   framework_cms:
@@ -215,10 +215,10 @@ export interface Event {
   title: string;
   status_code: string;
   dns_resolves?: boolean | null;
-  location_updated?: boolean | null;
+  dns_updated?: boolean | null;
   timestamp?: string | null;
   event_owner: number | Website;
-  serialized_response?:
+  error_message?:
     | {
         [k: string]: unknown;
       }
@@ -376,10 +376,10 @@ export interface EventsSelect<T extends boolean = true> {
   title?: T;
   status_code?: T;
   dns_resolves?: T;
-  location_updated?: T;
+  dns_updated?: T;
   timestamp?: T;
   event_owner?: T;
-  serialized_response?: T;
+  error_message?: T;
   updatedAt?: T;
   createdAt?: T;
 }

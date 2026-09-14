@@ -9,6 +9,7 @@ export const Users: CollectionConfig = {
   fields: [
     {
       name: 'role',
+      label: 'Role',
       type: 'select',
       hasMany: true,
       options: [
